@@ -415,7 +415,7 @@ jobs:
             simaofsilva/noip-renewer:latest
         fi
 
-keepalive:
+  keepalive:
     needs: noip-renewer
     runs-on: ubuntu-24.04
     permissions:
