@@ -415,14 +415,18 @@ jobs:
             simaofsilva/noip-renewer:latest
         fi
 
-  keepalive:
+keepalive:
     needs: noip-renewer
-    runs-on: ubuntu-latest
-    # Grant push access ONLY to this isolated job
+    runs-on: ubuntu-24.04
     permissions:
       contents: write 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code with PAT
+        uses: actions/checkout@v4
+        with:
+          # This forces Git to use your PAT instead of the default token
+          token: ${{ secrets.PERSONALACCESSTOKEN }}
+
       - name: Prevent workflow pause
         uses: gautamkrishnar/keepalive-workflow@v2
         with:
