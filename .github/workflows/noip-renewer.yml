@@ -427,7 +427,13 @@ jobs:
           # This forces Git to use your PAT instead of the default token
           token: ${{ secrets.PERSONALACCESSTOKEN }}
 
-      - name: Prevent workflow pause
-        uses: gautamkrishnar/keepalive-workflow@v2
-        with:
-          gh_token: ${{ secrets.PERSONALACCESSTOKEN }}
+      - name: Native Git Keepalive
+        run: |
+          if [ "$(date +'%d')" == "01" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "Auto keepalive commit to prevent workflow suspension"
+            git push
+          else
+            echo "Skipping keepalive commit until the 1st of the month."
+          fi
